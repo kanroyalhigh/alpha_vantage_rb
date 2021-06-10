@@ -1,40 +1,33 @@
-module Alphavantage
-  class Exchange_Timeseries
+module AlphaVantageRb
+  class CryptoTimeseries
     include HelperFunctions
 
-    def initialize type: "intraday", from:, to:, datatype: "json", file: nil,
-      key:, verbose: false, outputsize: "compact", interval: nil
+    def initialize type: "daily", market:, symbol:, datatype: "json", file: nil,
+      key:, verbose: false
       check_argument([true, false], verbose, "verbose")
       @client = return_client(key, verbose)
-      if type == "intraday"
-        interval ||= "1min"
-        check_argument(["1min", "5min", "15min", "30min", "60min"], interval, "interval")
-        interval = "&interval=#{interval}"
-      else
-        check_argument([nil], interval, "interval")
-        interval = ""
-      end
-      check_argument(["compact", "full"], outputsize, "outputsize")
       check_argument(["json", "csv"], datatype, "datatype")
       check_datatype(datatype, file)
 
-      @selected_time_series = which_series(type, "FX")
-      url = "function=#{@selected_time_series}&from_symbol=#{from}&to_symbol=#{to}#{interval}&outputsize=#{outputsize}"
+      @selected_time_series = which_series(type, "DIGITAL_CURRENCY")
+      url = "function=#{@selected_time_series}&symbol=#{symbol}&market=#{market}"
       return @client.download(url, file) if datatype == "csv"
       @output = @client.request(url)
       metadata = @output.dig("Meta Data") || {}
-      metadata.each do |k, val|
-        key_sym = k.downcase.gsub(/[0-9.]/, "").lstrip.gsub(" ", "_").to_sym
+      metadata.each do |keyt, val|
+        key_sym = keyt.downcase.gsub(/[0-9.]/, "").lstrip.gsub(" ", "_").to_sym
         define_singleton_method(key_sym) do
           return val
         end
       end
-      @open = []; @high = []; @low = []; @close = [];
+      @open = []; @high = []; @low = []; @close = []; @volume = [];
+      @open_usd = []; @high_usd = []; @low_usd = []; @close_usd = [];
+      @market_cap_usd = [];
 
       begin
         time_series = @output.find{|k, val| k.include?("Time Series")}[1]
       rescue StandardError => e
-        raise Alphavantage::Error.new message: "No Time Series found: #{e.message}",
+        raise AlphaVantageRb::Error.new message: "No Time Series found: #{e.message}",
           data: @output
       end
 

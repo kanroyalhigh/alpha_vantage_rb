@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Sector do
+RSpec.describe AlphaVantageRb::Sector do
   context "#new" do
     it "create a new sector without client" do
-      exchange = Alphavantage::Sector.new key: @config["key"]
-      expect(exchange.class).to eq Alphavantage::Sector
+      exchange = AlphaVantageRb::Sector.new key: @api_key
+      expect(exchange.class).to eq AlphaVantageRb::Sector
     end
 
     it "create a new sector with client" do
       exchange = @client.sector
-      expect(exchange.class).to eq Alphavantage::Sector
+      expect(exchange.class).to eq AlphaVantageRb::Sector
     end
 
     it "has several parameters" do
@@ -34,8 +34,8 @@ describe Alphavantage::Sector do
     # it "cannot retrieve with wrong key" do
     #   error = false
     #   begin
-    #     stock = Alphavantage::Sector.new key:"wrong_key"
-    #   rescue Alphavantage::Error => e
+    #     stock = AlphaVantageRb::Sector.new key:"wrong_key"
+    #   rescue AlphaVantageRb::Error => e
     #     error = true
     #   end
     #   expect(error).to eq true

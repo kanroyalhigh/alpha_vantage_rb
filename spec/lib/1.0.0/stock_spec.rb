@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Stock do
+RSpec.describe AlphaVantageRb::Stock do
   context "#new" do
     it "create a new stock without client" do
-      stock = Alphavantage::Stock.new symbol: "MSFT", key: @config["key"]
-      expect(stock.class).to eq Alphavantage::Stock
+      stock = AlphaVantageRb::Stock.new symbol: "MSFT", key: @api_key
+      expect(stock.class).to eq AlphaVantageRb::Stock
     end
 
     it "create a new stock from client" do
       stock = @client.stock symbol: "MSFT"
-      expect(stock.class).to eq Alphavantage::Stock
+      expect(stock.class).to eq AlphaVantageRb::Stock
     end
 
     it "can change datatype" do
@@ -18,7 +18,7 @@ describe Alphavantage::Stock do
       bool << stock.datatype
       begin
         stock.datatype = "ciao"
-      rescue Alphavantage::Error => e
+      rescue AlphaVantageRb::Error => e
         bool << "error"
       end
       stock.datatype = "csv"
@@ -48,13 +48,13 @@ describe Alphavantage::Stock do
     it "can create a new timeseries from stock" do
       stock = @client.stock symbol: "MSFT"
       timeseries = stock.timeseries
-      expect(timeseries.class).to eq Alphavantage::Timeseries
+      expect(timeseries.class).to eq AlphaVantageRb::Timeseries
     end
 
     it "can create a new indicator from stock" do
       stock = @client.stock symbol: "MSFT"
       indicator = stock.indicator function: "SMA"
-      expect(indicator.class).to eq Alphavantage::Indicator
+      expect(indicator.class).to eq AlphaVantageRb::Indicator
     end
   end
 end

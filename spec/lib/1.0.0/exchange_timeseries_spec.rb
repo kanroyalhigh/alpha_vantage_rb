@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Stock do
+RSpec.describe AlphaVantageRb::Stock do
   context "#new" do
     it "create a new timeseries without stock" do
-      stock = Alphavantage::Exchange_Timeseries.new from: "USD", to: "DKK", key: @config["key"], verbose: false
-      expect(stock.class).to eq Alphavantage::Exchange_Timeseries
+      stock = AlphaVantageRb::ExchangeTimeseries.new from: "USD", to: "DKK", key: @api_key, verbose: false
+      expect(stock.class).to eq AlphaVantageRb::ExchangeTimeseries
     end
 
     it "create a new stock from stock" do
       timeseries = @client.exchange(from: "USD", to: "DKK").timeseries(type: "daily", outputsize: "compact")
-      expect(timeseries.class).to eq Alphavantage::Exchange_Timeseries
+      expect(timeseries.class).to eq AlphaVantageRb::ExchangeTimeseries
     end
 
     it "own multiple data" do
@@ -62,9 +62,9 @@ describe Alphavantage::Stock do
     it "cannot retrieve with wrong symbol" do
       error = false
       begin
-        stock = Alphavantage::Exchange_Timeseries.new from: "wrong_symbol",
-        to: "USD", key: @config["key"]
-      rescue Alphavantage::Error => e
+        stock = AlphaVantageRb::ExchangeTimeseries.new from: "wrong_symbol",
+        to: "USD", key: @api_key
+      rescue AlphaVantageRb::Error => e
         error = true
       end
       expect(error).to eq true

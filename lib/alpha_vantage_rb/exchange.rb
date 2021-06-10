@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Exchange
     include HelperFunctions
 
@@ -6,8 +6,8 @@ module Alphavantage
       datatype: "json"
       check_argument([true, false], verbose, "verbose")
       @client = return_client(key, verbose)
-      from = from.symbol if from.is_a?(Alphavantage::Crypto)
-      to = to.symbol     if to.is_a?(Alphavantage::Crypto)
+      from = from.symbol if from.is_a?(AlphaVantageRb::Crypto)
+      to = to.symbol     if to.is_a?(AlphaVantageRb::Crypto)
       @from = from
       @to = to
       check_argument(["json", "csv"], datatype, "datatype")
@@ -30,7 +30,7 @@ module Alphavantage
     end
 
     def timeseries from: @from, to: @to, type: "intraday", file: nil, datatype: @datatype, interval: nil, outputsize: "compact"
-      Alphavantage::Exchange_Timeseries.new from: from, to: to, type: type, datatype: datatype, file: file, key: @client, interval: interval,
+      AlphaVantageRb::ExchangeTimeseries.new from: from, to: to, type: type, datatype: datatype, file: file, key: @client, interval: interval,
         outputsize: outputsize
     end
   end

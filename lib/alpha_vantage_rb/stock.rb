@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Stock
     include HelperFunctions
     def initialize symbol:,  datatype: "json", key:, verbose: false
@@ -25,7 +25,7 @@ module Alphavantage
 
     def timeseries type: "daily", interval: nil, outputsize: "compact",
       file: nil, datatype: @datatype, adjusted: false
-      Alphavantage::Timeseries.new type: type, interval: interval,
+      AlphaVantageRb::Timeseries.new type: type, interval: interval,
         outputsize: outputsize, symbol: @symbol, datatype: datatype, file: file,
         key: @client, adjusted: adjusted
     end
@@ -39,7 +39,7 @@ module Alphavantage
       fastdmatype: "0", matype: "0", timeperiod1: "7", timeperiod2: "14",
       timeperiod3: "28", nbdevup: "2", nbdevdn: "2", acceleration: "0.01",
       maximum: "0.20"
-      Alphavantage::Indicator.new function: function, symbol: @symbol,
+      AlphaVantageRb::Indicator.new function: function, symbol: @symbol,
         interval: interval, time_period: time_period, series_type: series_type,
         fastlimit: fastlimit, slowlimit: slowlimit, fastperiod: fastperiod,
         slowperiod: slowperiod, signalperiod: signalperiod,

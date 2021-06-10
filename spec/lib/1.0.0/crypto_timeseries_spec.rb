@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Crypto_Timeseries do
+RSpec.describe AlphaVantageRb::CryptoTimeseries do
   context "#new" do
     it "create a new timeseries without stock" do
-      stock = Alphavantage::Crypto_Timeseries.new symbol: "BTC", key: @config["key"], verbose: false, market: "DKK", type: "daily"
-      expect(stock.class).to eq Alphavantage::Crypto_Timeseries
+      stock = AlphaVantageRb::CryptoTimeseries.new symbol: "BTC", key: @api_key, verbose: false, market: "DKK", type: "daily"
+      expect(stock.class).to eq AlphaVantageRb::CryptoTimeseries
     end
 
     it "create a new stock from stock" do
       timeseries = @client.crypto(symbol: "BTC", market: "DKK").timeseries(type: "monthly")
-      expect(timeseries.class).to eq Alphavantage::Crypto_Timeseries
+      expect(timeseries.class).to eq AlphaVantageRb::CryptoTimeseries
     end
 
     it "own multiple data" do
@@ -39,8 +39,8 @@ describe Alphavantage::Crypto_Timeseries do
     # it "cannot retrieve with wrong key" do
     #   error = false
     #   begin
-    #     stock = Alphavantage::Crypto_Timeseries.new symbol: "BTC", key: "wrong_key", market: "DKK"
-    #   rescue Alphavantage::Error => e
+    #     stock = AlphaVantageRb::CryptoTimeseries.new symbol: "BTC", key: "wrong_key", market: "DKK"
+    #   rescue AlphaVantageRb::Error => e
     #     error = true
     #   end
     #   expect(error).to eq true
@@ -49,8 +49,8 @@ describe Alphavantage::Crypto_Timeseries do
     it "cannot retrieve with wrong symbol" do
       error = false
       begin
-        stock = Alphavantage::Crypto_Timeseries.new symbol: "wrong_symbol", key: @config["key"], market: "DKK", type: "daily"
-      rescue Alphavantage::Error => e
+        stock = AlphaVantageRb::CryptoTimeseries.new symbol: "wrong_symbol", key: @api_key, market: "DKK", type: "daily"
+      rescue AlphaVantageRb::Error => e
         error = true
       end
       expect(error).to eq true

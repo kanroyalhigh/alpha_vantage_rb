@@ -1,15 +1,15 @@
  require_relative './../../spec_helper'
 
-describe Alphavantage::Indicator do
+RSpec.describe AlphaVantageRb::Indicator do
   context "#new" do
     it "create a new indicator without stock" do
-      indicator = Alphavantage::Indicator.new function: "SMA", symbol: "MSFT", key: @config["key"], verbose: false
-      expect(indicator.class).to eq Alphavantage::Indicator
+      indicator = AlphaVantageRb::Indicator.new function: "SMA", symbol: "MSFT", key: @api_key, verbose: false
+      expect(indicator.class).to eq AlphaVantageRb::Indicator
     end
 
     it "create a new stock from stock" do
       indicator = @client.stock(symbol: "MSFT").indicator(function: "SMA")
-      expect(indicator.class).to eq Alphavantage::Indicator
+      expect(indicator.class).to eq AlphaVantageRb::Indicator
     end
 
     it "can be indicator SMA" do
@@ -40,6 +40,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator WMA" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "WMA", interval: "weekly", time_period: "60", series_type: "close")
         bool << (indicator.symbol == "MSFT")
@@ -92,6 +93,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator KAMA" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "KAMA", interval: "weekly", time_period: "60", series_type: "close")
         bool << (indicator.symbol == "MSFT")
@@ -174,6 +176,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator STOCH" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "STOCH", interval: "weekly", fastkperiod: "5", slowkperiod: "3", slowdperiod: "3", slowkmatype: "0", slowdmatype: "0")
         bool << (indicator.symbol == "MSFT")
@@ -192,6 +195,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator STOCHF" do
+
       bool = []
       indicator = @stock.indicator(function: "STOCHF", interval: "weekly", fastkperiod: "5", fastdperiod: "3", fastdmatype: "0")
         bool << (indicator.symbol == "MSFT")
@@ -249,6 +253,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator ADX" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "ADX", interval: "weekly", time_period: "60")
         bool << (indicator.symbol == "MSFT")
@@ -289,6 +294,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator PPO" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "PPO", interval: "weekly", series_type: "close", fastperiod: "12", slowperiod: "26", signalperiod: "9", matype: "0")
         bool << (indicator.symbol == "MSFT")
@@ -342,6 +348,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator CMO" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "CMO", interval: "weekly", time_period: "60", series_type: "close")
         bool << (indicator.symbol == "MSFT")
@@ -394,6 +401,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator AROONOSC" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "AROONOSC", interval: "weekly", time_period: "60")
         bool << (indicator.symbol == "MSFT")
@@ -446,6 +454,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator DX" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "DX", interval: "weekly", time_period: "60")
         bool << (indicator.symbol == "MSFT")
@@ -482,6 +491,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator MINUS_DM" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "MINUS_DM", interval: "weekly", time_period: "60")
         bool << (indicator.symbol == "MSFT")
@@ -524,6 +534,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator MIDPOINT" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "MIDPOINT", interval: "weekly", time_period: "60", series_type: "close")
         bool << (indicator.symbol == "MSFT")
@@ -563,6 +574,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator TRANGE" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "TRANGE", interval: "weekly")
         bool << (indicator.symbol == "MSFT")
@@ -599,6 +611,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator AD" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "AD", interval: "weekly")
         bool << (indicator.symbol == "MSFT")
@@ -637,6 +650,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator HT_TRENDLINE" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "HT_TRENDLINE", interval: "weekly", series_type: "close")
         bool << (indicator.symbol == "MSFT")
@@ -690,6 +704,7 @@ describe Alphavantage::Indicator do
     end
 
     it "can be indicator HT_DCPHASE" do
+      sleep(30)
       bool = []
       indicator = @stock.indicator(function: "HT_DCPHASE", interval: "weekly", series_type: "close")
         bool << (indicator.symbol == "MSFT")

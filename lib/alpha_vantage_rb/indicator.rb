@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Indicator
     include HelperFunctions
 
@@ -106,7 +106,7 @@ module Alphavantage
       begin
         time_series = @output.find{|k, val| k.include?("Technical Analysis")}[1]
       rescue StandardError => e
-        raise Alphavantage::Error.new message: "No Time Series found: #{e.message}",
+        raise AlphaVantageRb::Error.new message: "No Time Series found: #{e.message}",
           data: @output
       end
 

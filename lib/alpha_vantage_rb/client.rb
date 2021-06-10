@@ -1,8 +1,8 @@
-module Alphavantage
+module AlphaVantageRb
   class Client
     include HelperFunctions
 
-    def initialize key:, verbose: false
+    def initialize(key:, verbose: false)
       check_argument([true, false], verbose, "verbose")
       @apikey = key
       @base_uri = 'https://www.alphavantage.co'
@@ -17,26 +17,49 @@ module Alphavantage
     end
 
     def request(url)
+
       send_url = "#{@base_uri}/query?#{url}&apikey=#{@apikey}"
       puts "\n#{send_url}\n" if @verbose
+      try_count = 0
+      begin
+        try_count += 1
+        response  = HTTParty.get(send_url)
+        data      = JSON.parse(response.body)
+        puts data if @verbose
+        exceeds = data["Error Message"] || data["Information"] || data["Note"]
+        raise AlphaVantageRb::Error
+          .new(message: exceeds, data: data) unless exceeds.nil?
+      rescue AlphaVantageRb::Error => e
+        if try_count < 5
+          sleep(60)
+          retry
+        else
+          raise AlphaVantageRb::Error.new(
+            message: "Number of request retries exceeded",
+            data: data
+          )
+        end
+      rescue JSON::ParserError => e
+        raise AlphaVantageRb::Error.new(message: "Parsing failed", data: data)
+      end
+=begin
       begin
         response = HTTParty.get(send_url)
       rescue StandardError => e
-        raise Alphavantage::Error.new message: "Failed request: #{e.message}"
+        raise AlphaVantageRb::Error.new message: "Failed request: #{e.message}"
       end
       data = response.body
       begin
         puts data if @verbose
         data = JSON.parse(data)
       rescue StandardError => e
-        raise Alphavantage::Error.new message: "Parsing failed",
-          data: data
+        raise AlphaVantageRb::Error.new(message: "Parsing failed", data: data)
       end
-
       error = data["Error Message"] || data["Information"] || data["Note"]
       unless error.nil?
-        raise Alphavantage::Error.new message: error, data: data
+        raise AlphaVantageRb::Error.new(message: error, data: data)
       end
+=end
       return data
     end
 
@@ -47,7 +70,7 @@ module Alphavantage
         uri = URI.parse(send_url)
         uri.open{|csv| IO.copy_stream(csv, file)}
       rescue StandardError => e
-        raise Alphavantage::Error.new message: "Failed to save the CSV file: #{e.message}"
+        raise AlphaVantageRb::Error.new message: "Failed to save the CSV file: #{e.message}"
       end
       return "CSV saved in #{file}"
     end
@@ -65,26 +88,26 @@ module Alphavantage
           key_sym = recreate_metadata_key(key)
           val[key_sym] = valz
         end
-        val.stock = Alphavantage::Stock.new(symbol: bm["1. symbol"], key: self)
+        val.stock = AlphaVantageRb::Stock.new(symbol: bm["1. symbol"], key: self)
         val
       end
       return output
     end
 
     def stock(symbol:, datatype: "json")
-      Alphavantage::Stock.new symbol: symbol, key: self, datatype: datatype
+      AlphaVantageRb::Stock.new symbol: symbol, key: self, datatype: datatype
     end
 
     def exchange(from:, to:, datatype: "json")
-      Alphavantage::Exchange.new from: from, to: to, key: self, datatype: datatype
+      AlphaVantageRb::Exchange.new from: from, to: to, key: self, datatype: datatype
     end
 
     def crypto(symbol:, market:, datatype: "json")
-      Alphavantage::Crypto.new symbol: symbol, key: self, datatype: datatype, market: market
+      AlphaVantageRb::Crypto.new symbol: symbol, key: self, datatype: datatype, market: market
     end
 
     def sector
-      Alphavantage::Sector.new key: self
+      AlphaVantageRb::Sector.new key: self
     end
   end
 end

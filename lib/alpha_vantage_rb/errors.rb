@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Error < StandardError
     def initialize(message: , data: nil)
       @data = data

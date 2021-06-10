@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Stock do
+RSpec.describe AlphaVantageRb::Stock do
   context "#new" do
     it "create a new timeseries without stock" do
-      stock = Alphavantage::Timeseries.new symbol: "MSFT", key: @config["key"], verbose: false
-      expect(stock.class).to eq Alphavantage::Timeseries
+      stock = AlphaVantageRb::Timeseries.new symbol: "MSFT", key: @api_key, verbose: false
+      expect(stock.class).to eq AlphaVantageRb::Timeseries
     end
 
     it "create a new stock from stock" do
       timeseries = @client.stock(symbol: "MSFT").timeseries(type: "daily", outputsize: "compact")
-      expect(timeseries.class).to eq Alphavantage::Timeseries
+      expect(timeseries.class).to eq AlphaVantageRb::Timeseries
     end
 
     it "own multiple data" do
@@ -81,8 +81,8 @@ describe Alphavantage::Stock do
     # it "cannot retrieve with wrong key" do
     #   error = false
     #   begin
-    #     stock = Alphavantage::Timeseries.new symbol: "MSFT", key:"wrong key"
-    #   rescue Alphavantage::Error => e
+    #     stock = AlphaVantageRb::Timeseries.new symbol: "MSFT", key:"wrong key"
+    #   rescue AlphaVantageRb::Error => e
     #     error = true
     #   end
     #   expect(error).to eq true
@@ -91,8 +91,10 @@ describe Alphavantage::Stock do
     it "cannot retrieve with wrong symbol" do
       error = false
       begin
-        stock = Alphavantage::Timeseries.new symbol: "wrong_symbol", key: @config["key"]
-      rescue Alphavantage::Error => e
+        stock = AlphaVantageRb::Timeseries
+          .new(symbol: "wrong_symbol", key: @api_key)
+        puts "wrong symbol:#{stock.inspect}"
+      rescue AlphaVantageRb::Error => e
         error = true
       end
       expect(error).to eq true

@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "alpha_vantage_rb"
+
+# Add fixtures and/or initialization code here to make experimenting
+# with the gem easier. A different console can also be used.
+
+# Don't forget to add pry to  Gemfile!)
+# require "pry"
+# Pry.start
+
+require "irb"
+IRB.start(__FILE__)

@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Crypto
     include HelperFunctions
 
@@ -24,7 +24,7 @@ module Alphavantage
     end
 
     def timeseries type: "daily", market: @market, file: nil, datatype: @datatype
-      Alphavantage::Crypto_Timeseries.new type: type, market: market,
+      AlphaVantageRb::CryptoTimeseries.new type: type, market: market,
         symbol: @symbol, datatype: datatype, file: file, key: @client
     end
   end

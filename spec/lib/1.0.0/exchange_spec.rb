@@ -1,15 +1,15 @@
 require_relative './../../spec_helper'
 
-describe Alphavantage::Exchange do
+RSpec.describe AlphaVantageRb::Exchange do
   context "#new" do
     it "create a new exchange without client" do
-      exchange = Alphavantage::Exchange.new from: "USD", to: "DKK", key: @config["key"]
-      expect(exchange.class).to eq Alphavantage::Exchange
+      exchange = AlphaVantageRb::Exchange.new from: "USD", to: "DKK", key: @api_key
+      expect(exchange.class).to eq AlphaVantageRb::Exchange
     end
 
     it "create a new exchange with client" do
       exchange = @client.exchange from: "USD", to: "DKK"
-      expect(exchange.class).to eq Alphavantage::Exchange
+      expect(exchange.class).to eq AlphaVantageRb::Exchange
     end
 
     it "has several parameters" do
@@ -29,8 +29,8 @@ describe Alphavantage::Exchange do
     # it "cannot retrieve with wrong key" do
     #   error = false
     #   begin
-    #     stock = Alphavantage::Exchange.new from: "USD", to: "DKK", key:"wrong_key"
-    #   rescue Alphavantage::Error => e
+    #     stock = AlphaVantageRb::Exchange.new from: "USD", to: "DKK", key:"wrong_key"
+    #   rescue AlphaVantageRb::Error => e
     #     error = true
     #   end
     #   expect(error).to eq true
@@ -39,10 +39,10 @@ describe Alphavantage::Exchange do
     it "cannot retrieve with wrong symbol" do
       error = false
       begin
-        stock = Alphavantage::Exchange.new from: "wrong_from",
-          to: "DKK", key: @config["key"]
+        stock = AlphaVantageRb::Exchange.new from: "wrong_from",
+          to: "DKK", key: @api_key
         stock.now
-      rescue Alphavantage::Error => e
+      rescue AlphaVantageRb::Error => e
         error = true
       end
       expect(error).to eq true

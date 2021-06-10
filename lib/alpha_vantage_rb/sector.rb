@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphaVantageRb
   class Sector
     include HelperFunctions
 
